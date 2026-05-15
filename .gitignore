@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Project artifacts
+.probe_lora_ckpt/
+.submodule_lora_ckpt/
+.matched_baseline_ckpt/
+wandb/
+wandb_cache/
+wandb_artifacts/
+*.ckpt
+*.pt
+*.bin
+*.safetensors
+checkpoint-*/
+
+# Caches
+.cache/
+hf_cache/
+.hf_cache/
+
+# Secrets — never commit
+.netrc
+.env
+*.env
+secrets.*
+credentials.*
+
+# Logs
+*.log
+runs/
+outputs/
+
+# Data downloads (HF datasets cache lives outside repo by default; guard anyway)
+data/
+datasets/
