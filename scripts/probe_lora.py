@@ -142,8 +142,7 @@ def fit_layer_probes(train_acts: List[np.ndarray], train_y: np.ndarray,
             scores[L] = float(r) if not np.isnan(r) else 0.0
         else:
             probe = LogisticRegression(max_iter=1000, C=1.0, n_jobs=-1,
-                                        random_state=seed,
-                                        multi_class="auto", solver="lbfgs")
+                                        random_state=seed, solver="lbfgs")
             probe.fit(Xtr, train_y)
             preds = probe.predict(Xev)
             scores[L] = float(accuracy_score(eval_y, preds))
