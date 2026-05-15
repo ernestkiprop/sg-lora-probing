@@ -141,7 +141,7 @@ def fit_layer_probes(train_acts: List[np.ndarray], train_y: np.ndarray,
             r, _ = pearsonr(preds, eval_y)
             scores[L] = float(r) if not np.isnan(r) else 0.0
         else:
-            probe = LogisticRegression(max_iter=1000, C=1.0, n_jobs=-1,
+            probe = LogisticRegression(max_iter=1000, C=1.0,
                                         random_state=seed, solver="lbfgs")
             probe.fit(Xtr, train_y)
             preds = probe.predict(Xev)
@@ -256,16 +256,16 @@ def fetch_completed_runs(task: str, rule: str) -> set:
     try:
         entity = api.viewer.entity
         runs = api.runs(f"{entity}/{project}", filters={"state": "finished"})
+        done = set()
+        for r in runs:
+            s = r.config.get("seed"); k = r.config.get("top_k_percent")
+            if s is not None and k is not None:
+                done.add((int(s), round(float(k), 2)))
+        print(f"[resume] {len(done)} already-finished runs in {project}")
+        return done
     except Exception as e:
-        print(f"[resume] WARNING: could not query W&B project {project}: {e}")
+        print(f"[resume] project {project} not found yet, starting fresh")
         return set()
-    done = set()
-    for r in runs:
-        s = r.config.get("seed"); k = r.config.get("top_k_percent")
-        if s is not None and k is not None:
-            done.add((int(s), round(float(k), 2)))
-    print(f"[resume] {len(done)} already-finished runs in {project}")
-    return done
 
 
 def _find_last_checkpoint(ckpt_dir: str):
