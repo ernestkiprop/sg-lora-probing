@@ -453,7 +453,14 @@ def main():
     ap.add_argument("--top-k", type=float, nargs="+", default=[0.20],
                     help="One or more top_k_percent values. Default: [0.20].")
     ap.add_argument("--resume", action="store_true")
+    ap.add_argument("--batch-size", type=int, default=None,
+                    help="Override train/eval batch size (default: 32). Use 16 for 8GB VRAM.")
     args = ap.parse_args()
+
+    if args.batch_size is not None:
+        global BATCH_SIZE, PROBE_BATCH_SIZE
+        BATCH_SIZE = args.batch_size
+        PROBE_BATCH_SIZE = args.batch_size
 
     if args.smoke:
         print(f"\n[SMOKE TEST] task={args.task}  rule={args.rule}\n")
